@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content={get_csrf_token()} />
-    <.live_title default="Betting" suffix=" · Phoenix Framework">
+    <.live_title default="Betting" suffix="">
       {assigns[:page_title]}
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
@@ -12,47 +12,58 @@
     </script>
   </head>
   <body class="bg-white">
-    <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
-      <%= if @current_user do %>
-        <li class="text-[0.8125rem] leading-6 text-zinc-900">
-          {@current_user.email}
-        </li>
-        <li>
-          <.link
-            href={~p"/users/settings"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Settings
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/log_out"}
-            method="delete"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Log out
-          </.link>
-        </li>
-      <% else %>
-        <li>
-          <.link
-            href={~p"/users/register"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Register
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/log_in"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Log in
-          </.link>
-        </li>
-      <% end %>
-    </ul>
+    <div class="bg-gray-900 py-4">
+      <ul class="flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
+        <%= if @current_user do %>
+          <!-- Display current user's email in a pill badge -->
+          <li>
+            <span class="inline-flex items-center px-3 py-1 rounded-full bg-blue-600 text-white text-sm font-medium">
+              <%= @current_user.email %>
+            </span>
+          </li>
+          <!-- Settings link -->
+          <li>
+            <.link
+              href={~p"/users/settings"}
+              class="px-3 py-1 rounded-md text-sm font-semibold text-white hover:bg-gray-800 transition-colors"
+            >
+              Settings
+            </.link>
+          </li>
+          <!-- Log out link -->
+          <li>
+            <.link
+              href={~p"/users/log_out"}
+              method="delete"
+              class="px-3 py-1 rounded-md text-sm font-semibold text-white hover:bg-gray-800 transition-colors"
+            >
+              Log out
+            </.link>
+          </li>
+        <% else %>
+          <!-- Register link -->
+          <li>
+            <.link
+              href={~p"/users/register"}
+              class="px-3 py-1 rounded-md text-sm font-semibold text-white hover:bg-gray-800 transition-colors"
+            >
+              Register
+            </.link>
+          </li>
+          <!-- Log in link -->
+          <li>
+            <.link
+              href={~p"/users/log_in"}
+              class="px-3 py-1 rounded-md text-sm font-semibold text-white hover:bg-gray-800 transition-colors"
+            >
+              Log in
+            </.link>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+    
+    
     {@inner_content}
   </body>
 </html>

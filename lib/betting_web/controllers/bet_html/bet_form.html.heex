@@ -1,0 +1,14 @@
+<.simple_form :let={f} for={@changeset} action={@action}>
+  <.error :if={@changeset.action}>
+    Oops, something went wrong! Please check the errors below.
+  </.error>
+  <.input field={f[:bet_amount]} type="number" label="Bet amount" step="any" />
+  <.input field={f[:settled_amount]} type="number" step="0.0001" placeholder disabled label="Settled amount" step="any" />  
+  <.input field={f[:odd_id]} type="select" label="Select odd" options={[{"Select odd", nil}, {"Team A", 1}, {"Team B", 2}, {"Draw", 3}]} />
+  <.input field={f[:active]} type="checkbox" label="Active" />
+
+
+  <:actions>
+    <.button>Save Bet</.button>
+  </:actions>
+</.simple_form>

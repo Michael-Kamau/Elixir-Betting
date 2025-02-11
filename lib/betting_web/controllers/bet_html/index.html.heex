@@ -1,0 +1,25 @@
+<.header>
+  Listing Bets
+  <:actions>
+    <.link href={~p"/bets/new"}>
+      <.button>New Bet</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="bets" rows={@bets} row_click={&JS.navigate(~p"/bets/#{&1}")}>
+  <:col :let={bet} label="Bet amount">{bet.bet_amount}</:col>
+  <:col :let={bet} label="Active">{bet.active}</:col>
+  <:col :let={bet} label="Settled amount">{bet.settled_amount}</:col>
+  <:action :let={bet}>
+    <div class="sr-only">
+      <.link navigate={~p"/bets/#{bet}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/bets/#{bet}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={bet}>
+    <.link href={~p"/bets/#{bet}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
