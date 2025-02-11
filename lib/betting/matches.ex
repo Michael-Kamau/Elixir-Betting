@@ -19,6 +19,7 @@ defmodule Betting.Matches do
   """
   def list_matches do
     Repo.all(Match)
+    |> Repo.preload([:team_a, :team_b, :category, :odd, :odds])
   end
 
   @doc """

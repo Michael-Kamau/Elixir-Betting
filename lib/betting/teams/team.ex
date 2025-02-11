@@ -4,7 +4,8 @@ defmodule Betting.Teams.Team do
 
   schema "teams" do
     field :name, :string
-    has_many :matches, Betting.Matches.Match
+    has_many :a_matches, Betting.Matches.Match, foreign_key: :team_a_id
+    has_many :b_matches, Betting.Matches.Match, foreign_key: :team_b_id
 
     timestamps(type: :utc_datetime)
   end
