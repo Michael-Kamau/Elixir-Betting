@@ -1,0 +1,16 @@
+<.header>
+  Match {@match.id}
+  <:subtitle>This is a match record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/matches/#{@match}/edit"}>
+      <.button>Edit match</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Team a score">{@match.team_a_score}</:item>
+  <:item title="Team b score">{@match.team_b_score}</:item>
+</.list>
+
+<.back navigate={~p"/matches"}>Back to matches</.back>
