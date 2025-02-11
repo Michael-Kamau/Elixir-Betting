@@ -7,8 +7,8 @@ defmodule Betting.Repo.Migrations.CreateMatches do
       add :team_b_score, :integer
       add :team_a_id, references(:teams, on_delete: :nothing)
       add :team_b_id, references(:teams, on_delete: :nothing)
-      add :odd_id, references(:"oddscategory_id:references:categories", on_delete: :nothing)
-      add :category_id, references(:"oddscategory_id:references:categories", on_delete: :nothing)
+      add :odd_id, references(:odds, on_delete: :nothing)
+      add :category_id, references(:categories, on_delete: :nothing)
 
       timestamps(type: :utc_datetime)
     end

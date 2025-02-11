@@ -7,9 +7,10 @@ defmodule Betting.Matches.Match do
     field :team_b_score, :integer
     field :team_a_id, :id
     field :team_b_id, :id
-    field :odd_id, :id
+    belongs_to :odd, Betting.Odds.Odd
     belongs_to :category, Betting.Categories.Category
     belongs_to :team, Betting.Teams.Team
+    has_many :odds, Betting.Odds.Odd
 
     timestamps(type: :utc_datetime)
   end
