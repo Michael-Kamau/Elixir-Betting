@@ -1,4 +1,5 @@
 defmodule BettingWeb.Router do
+
   use BettingWeb, :router
 
   import BettingWeb.UserAuth
@@ -20,7 +21,9 @@ defmodule BettingWeb.Router do
   scope "/", BettingWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    # get "/", PageController, :home
+    live "/", HomepageLive
+
   end
 
   # Other scopes may use custom stacks.
