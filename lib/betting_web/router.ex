@@ -50,6 +50,7 @@ defmodule BettingWeb.Router do
   scope "/", BettingWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
+
     live_session :redirect_if_user_is_authenticated,
       on_mount: [{BettingWeb.UserAuth, :redirect_if_user_is_authenticated}] do
       live "/users/register", UserRegistrationLive, :new
@@ -64,6 +65,8 @@ defmodule BettingWeb.Router do
   scope "/", BettingWeb do
     pipe_through [:browser, :require_authenticated_user]
 
+
+    resources "/teams", TeamController, only: [:index, :new, :create, :show]
     live_session :require_authenticated_user,
       on_mount: [{BettingWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
