@@ -2,8 +2,12 @@
   <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.
   </.error>
+  <.input field={f[:team_a_id]} type="select" label="Team A"options={[{"Select team A", nil} | @teams]}  />
   <.input field={f[:team_a_score]} type="number" label="Team a score" />
+  <.input field={f[:team_b_id]} type="select" label="Team B" options={[{"Select team B", nil} | @teams]} /> 
   <.input field={f[:team_b_score]} type="number" label="Team b score" />
+  <.input field={f[:odd_id]} type="select" label="Winning odd" options={[{"Select outcome", nil}, {"Team A", 1}, {"Team B", 2}, {"Draw", 3}]} />
+
   <:actions>
     <.button>Save Match</.button>
   </:actions>

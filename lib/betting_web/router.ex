@@ -67,7 +67,7 @@ defmodule BettingWeb.Router do
 
 
     resources "/teams", TeamController, only: [:index, :new, :create, :show]
-    resources "/matches", MatchController, only: [:index, :new, :create, :show, :edit]
+    resources "/matches", MatchController, except: [:delete]
 
     live_session :require_authenticated_user,
       on_mount: [{BettingWeb.UserAuth, :ensure_authenticated}] do

@@ -4,6 +4,8 @@ defmodule BettingWeb.MatchController do
   alias Betting.Matches
   alias Betting.Matches.Match
 
+  alias Betting.Teams
+
   def index(conn, _params) do
     matches = Matches.list_matches()
     render(conn, :index, matches: matches)
@@ -11,10 +13,13 @@ defmodule BettingWeb.MatchController do
 
   def new(conn, _params) do
     changeset = Matches.change_match(%Match{})
-    render(conn, :new, changeset: changeset)
+    teams = Teams.list_teams() |> Enum.map(&{&1.name, &1.id})
+
+    render(conn, :new, teams: teams, changeset: changeset)
   end
 
   def create(conn, %{"match" => match_params}) do
+
     case Matches.create_match(match_params) do
       {:ok, match} ->
         conn
@@ -22,7 +27,8 @@ defmodule BettingWeb.MatchController do
         |> redirect(to: ~p"/matches/#{match}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
+        teams = Teams.list_teams() |> Enum.map(&{&1.name, &1.id})
+        render(conn, :new, changeset: changeset, teams: teams)
     end
   end
 
@@ -34,11 +40,15 @@ defmodule BettingWeb.MatchController do
   def edit(conn, %{"id" => id}) do
     match = Matches.get_match!(id)
     changeset = Matches.change_match(match)
-    render(conn, :edit, match: match, changeset: changeset)
+    teams = Teams.list_teams() |> Enum.map(&{&1.name, &1.id})
+
+    render(conn, :edit, match: match, teams: teams, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "match" => match_params}) do
     match = Matches.get_match!(id)
+    teams = Teams.list_teams() |> Enum.map(&{&1.name, &1.id})
+
 
     case Matches.update_match(match, match_params) do
       {:ok, match} ->
@@ -47,7 +57,7 @@ defmodule BettingWeb.MatchController do
         |> redirect(to: ~p"/matches/#{match}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :edit, match: match, changeset: changeset)
+        render(conn, :edit, match: match, teams: teams, changeset: changeset)
     end
   end
 
