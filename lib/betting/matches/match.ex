@@ -5,11 +5,10 @@ defmodule Betting.Matches.Match do
   schema "matches" do
     field :team_a_score, :integer
     field :team_b_score, :integer
-    field :team_a_id, :id
-    field :team_b_id, :id
     belongs_to :odd, Betting.Odds.Odd
     belongs_to :category, Betting.Categories.Category
-    belongs_to :team, Betting.Teams.Team
+    belongs_to :team_a, Betting.Teams.Team
+    belongs_to :team_b, Betting.Teams.Team
     has_many :odds, Betting.Odds.Odd
 
     timestamps(type: :utc_datetime)
@@ -18,7 +17,7 @@ defmodule Betting.Matches.Match do
   @doc false
   def changeset(match, attrs) do
     match
-    |> cast(attrs, [:team_a_score, :team_b_score])
-    |> validate_required([:team_a_score, :team_b_score])
+    |> cast(attrs, [:team_a_score, :team_b_score, :team_a_id, :team_b_id, :odd_id, :category_id])
+    |> validate_required([:team_a_score, :team_b_score, :team_a_id, :team_b_id, :category_id])
   end
 end

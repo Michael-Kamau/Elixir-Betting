@@ -1,4 +1,5 @@
 defmodule BettingWeb.OddLive.Index do
+alias Betting.Matches
   use BettingWeb, :live_view
 
   alias Betting.Odds
@@ -20,10 +21,11 @@ defmodule BettingWeb.OddLive.Index do
     |> assign(:odd, Odds.get_odd!(id))
   end
 
-  defp apply_action(socket, :new, _params) do
+  defp apply_action(socket, :new, %{"id" => id}) do
     socket
     |> assign(:page_title, "New Odd")
     |> assign(:odd, %Odd{})
+    |> assign(:match, Matches.get_match!(id))
   end
 
   defp apply_action(socket, :index, _params) do
