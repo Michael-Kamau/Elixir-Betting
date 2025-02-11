@@ -5,8 +5,7 @@ defmodule Betting.Odds.Odd do
   schema "odds" do
     field :outcome,  Ecto.Enum, values: [:team_a_win, :team_b_win, :draw]
     field :odd_value, :float
-    field :match_id, :id
-
+    belongs_to :match, Betting.Matches.Match
     timestamps(type: :utc_datetime)
   end
 

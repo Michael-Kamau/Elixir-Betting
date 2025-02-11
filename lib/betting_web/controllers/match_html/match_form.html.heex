@@ -2,11 +2,24 @@
   <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.
   </.error>
-  <.input field={f[:team_a_id]} type="select" label="Team A"options={[{"Select team A", nil} | @teams]}  />
-  <.input field={f[:team_a_score]} type="number" label="Team a score" />
-  <.input field={f[:team_b_id]} type="select" label="Team B" options={[{"Select team B", nil} | @teams]} /> 
-  <.input field={f[:team_b_score]} type="number" label="Team b score" />
+  <div class="grid grid-cols-2 gap-4 justify-between">
+    <.input field={f[:team_a_id]} type="select" label="Team A"options={[{"Select team A", nil} | @teams]}  />
+    <.input field={f[:team_b_id]} type="select" label="Team B" options={[{"Select team B", nil} | @teams]} /> 
+
+  </div>
+  <div class="grid grid-cols-2 gap-4 justify-between">
+    <.input field={f[:team_a_score]} type="number" label="Team A score" />
+    <.input field={f[:team_b_score]} type="number" label="Team B score" />
+
+  </div>
   <.input field={f[:odd_id]} type="select" label="Winning odd" options={[{"Select outcome", nil}, {"Team A", 1}, {"Team B", 2}, {"Draw", 3}]} />
+
+  <div class="flex justify-between">
+    <.input field={f[:team_a_odd]} type="number" step="0.01"  label="Team A odd" name="match[odds][team_a_odd]"/>
+    <.input field={f[:draw_odd]} type="number" step="0.01"  label="Draw odd" name="match[odds][draw_odd]"/>
+    <.input field={f[:team_b_odd]} type="number" step="0.01"  label="Team B odd" name="match[odds][team_b_odd]"/>
+  </div>
+
 
   <:actions>
     <.button>Save Match</.button>

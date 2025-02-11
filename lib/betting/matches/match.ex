@@ -8,6 +8,8 @@ defmodule Betting.Matches.Match do
     field :team_a_id, :id
     field :team_b_id, :id
     field :odd_id, :id
+    has_many :odds, Betting.Odds.Odd
+
 
     timestamps(type: :utc_datetime)
   end
@@ -30,5 +32,7 @@ defmodule Betting.Matches.Match do
       changeset
     end
   end
+
+
 
 end
