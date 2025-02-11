@@ -68,6 +68,26 @@ defmodule BettingWeb.Router do
       on_mount: [{BettingWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+
+      #MATCHES LIVE VIEWS
+      live "/matches", MatchLive.Index, :index
+      live "/matches/new", MatchLive.Index, :new
+      live "/matches/:id/edit", MatchLive.Index, :edit
+
+      live "/matches/:id", MatchLive.Show, :show
+      live "/matches/:id/show/edit", MatchLive.Show, :edit
+
+
+      #TEAMS LIVE VIEWS
+      live "/teams", TeamLive.Index, :index
+      live "/teams/new", TeamLive.Index, :new
+      live "/teams/:id/edit", TeamLive.Index, :edit
+
+      live "/teams/:id", TeamLive.Show, :show
+      live "/teams/:id/show/edit", TeamLive.Show, :edit
+
+      
+
     end
   end
 

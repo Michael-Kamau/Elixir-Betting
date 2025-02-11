@@ -4,6 +4,7 @@ defmodule Betting.Teams.Team do
 
   schema "teams" do
     field :name, :string
+    has_many :matches, Betting.Matches.Match
 
     timestamps(type: :utc_datetime)
   end

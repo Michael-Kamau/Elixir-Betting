@@ -4,6 +4,8 @@ defmodule Betting.Categories.Category do
 
   schema "categories" do
     field :name, :string
+    has_many :matches, Betting.Matches.Match
+
 
     timestamps(type: :utc_datetime)
   end
