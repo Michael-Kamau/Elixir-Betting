@@ -19,8 +19,19 @@ defmodule BettingWeb.MatchLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:team_a_score]} type="number" label="Team a score" />
-        <.input field={@form[:team_b_score]} type="number" label="Team b score" />
+
+      <.input field={@form[:category_id]} type="select" label="Sport category" options={@categories}/>
+
+      <div class="grid grid-cols-2 gap-x-3">
+      <.input field={@form[:team_a_id]} type="select" label="Team A" options={@teams}/>
+      <.input field={@form[:team_b_id]} type="select" label="Team B" options={@teams}/>
+      </div>
+      <div class="grid grid-cols-2 gap-x-3">
+      <.input field={@form[:team_a_score]} type="number" label="Team a score" />
+      <.input field={@form[:team_b_score]} type="number" label="Team b score" />
+      </div>
+
+
         <:actions>
           <.button phx-disable-with="Saving...">Save Match</.button>
         </:actions>
