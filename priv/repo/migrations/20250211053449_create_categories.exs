@@ -1,10 +1,9 @@
-defmodule Betting.Repo.Migrations.CreateTeams do
+defmodule Betting.Repo.Migrations.CreateCategories do
   use Ecto.Migration
 
   def change do
-    create table(:teams) do
-      add :name, :string,
-
+    create table(:categories) do
+      add :name, :string
 
       timestamps(type: :utc_datetime)
     end
