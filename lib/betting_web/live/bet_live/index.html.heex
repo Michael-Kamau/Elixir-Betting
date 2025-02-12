@@ -15,23 +15,27 @@
 
   <:col :let={{_id, bet}} label="Status">
     <%= cond do %>
+      <%= bet.cancelled -> %>
+      cancelled
+      <%= is_nil(bet.settled_amount) -> %>
+      Running
       <%= Decimal.compare(bet.settled_amount, Decimal.new(0)) == :gt -> %>
         won
       <%= Decimal.compare(bet.settled_amount, Decimal.new(0)) == :lt -> %>
         lost
-      <%= bet.cancelled -> %>
-        cancelled
       <%= true -> %>
         active
     <% end %>
   </:col>
 
   <:col :let={{_id, bet}} label="Settled amount">{bet.settled_amount}</:col>
-  <:action :let={{_id, bet}}>
-    <div class="sr-only">
+
+  <:action :let={{_id, bet}} >
+    <div class="sr-only" >
       <.link navigate={~p"/bets/#{bet}"}>Show</.link>
     </div>
-    <.link patch={~p"/bets/#{bet}/edit/#{bet.match_id}"}>Edit</.link>
+  
+    <.link  patch={~p"/bets/#{bet}/edit/#{bet.match_id}"}>Edit</.link>
   </:action>
   <!--
   <:action :let={{id, bet}}>
