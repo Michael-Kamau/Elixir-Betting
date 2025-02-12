@@ -9,7 +9,9 @@
   row_click={fn {_id, bet} -> JS.navigate(~p"/bets/#{bet}") end}
 >
   <:col :let={{_id, bet}} label="Teams">{bet.match.team_a.name} VS {bet.match.team_b.name}</:col>
-  <:col :let={{_id, bet}} label="Scores">{bet.bet_amount}</:col>
+
+  <:col :let={{_id, bet}} label="Amount">{bet.bet_amount}</:col>
+
 
   <:col :let={{_id, bet}} label="My prediction">{bet.outcome.name}</:col>
 

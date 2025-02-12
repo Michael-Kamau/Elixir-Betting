@@ -3,12 +3,16 @@ defmodule Betting.Accounts.User do
   import Ecto.Changeset
 
   schema "users" do
+    field :full_name, :string
+    field :msisdn, :string
+    field :super_user, :boolean
     field :email, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
     has_many :bets, Betting.Bets.Bet
+    belongs_to :role, Betting.Roles.Role
 
     timestamps(type: :utc_datetime)
   end
@@ -38,7 +42,7 @@ defmodule Betting.Accounts.User do
   """
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :password, :msisdn, :full_name, :role_id])
     |> validate_email(opts)
     |> validate_password(opts)
   end

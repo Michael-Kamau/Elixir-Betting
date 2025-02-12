@@ -13,6 +13,8 @@ alias Betting.Repo
 alias Betting.Categories.Category
 alias Betting.Outcomes.Outcome
 alias Betting.Teams.Team
+alias Betting.Roles.Role
+alias Betting.Accounts.User
 
 Repo.insert! %Category{
   name: "Football",
@@ -49,4 +51,24 @@ Repo.insert! %Team{
 
 Repo.insert! %Team{
   name: "Chelsea",
+}
+
+#Insert default roles
+Repo.insert! %Role{
+  name: "User",
+}
+
+Repo.insert! %Role{
+  name: "Admin",
+}
+
+
+#Insert default roles
+Repo.insert! %User{
+  full_name: "Admin",
+  email: "test@gmail.com",
+  hashed_password: Bcrypt.hash_pwd_salt("passwordpassword"),
+  msisdn: "+254728763522",
+  role_id: 2,
+  super_user: true,
 }
