@@ -1,6 +1,7 @@
 defmodule Betting.Bets.Bet do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.SoftDelete.Schema
 
   schema "bets" do
     field :cancelled, :boolean, default: false
@@ -14,6 +15,8 @@ defmodule Betting.Bets.Bet do
     belongs_to :outcome, Betting.Outcomes.Outcome
 
     timestamps(type: :utc_datetime)
+    soft_delete_schema()
+
   end
 
   @doc false

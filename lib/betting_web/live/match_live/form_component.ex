@@ -132,7 +132,7 @@ defmodule BettingWeb.MatchLive.FormComponent do
       case Bets.update_bet(bet, %{settled_amount: settled_amount}) do
         {:ok, updated_bet} ->
           # Now that the bet is updated, notify the user.
-          Betting.Matches.MatchNotifier.bet_settled_notification(updated_bet, match)
+          MatchNotifier.bet_settled_notification(updated_bet, match)
         {:error, changeset} ->
           # Log the error so you know if any bet update fails.
           IO.puts(changeset)

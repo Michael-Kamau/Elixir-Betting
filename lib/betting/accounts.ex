@@ -10,6 +10,10 @@ defmodule Betting.Accounts do
 
   ## Database getters
 
+
+  def list_users do
+    Repo.all(User) |> Repo.preload(:role)
+  end
   @doc """
   Gets a user by email.
 
@@ -59,6 +63,17 @@ defmodule Betting.Accounts do
 
   """
   def get_user!(id), do: Repo.get!(User, id)
+
+  def change_user(%User{} = user, attrs \\ %{}) do
+    User.changeset(user, attrs)
+  end
+
+
+  def update_user(%User{} = user, attrs) do
+    user
+    |> User.changeset(attrs)
+    |> Repo.update()
+  end
 
   ## User registration
 

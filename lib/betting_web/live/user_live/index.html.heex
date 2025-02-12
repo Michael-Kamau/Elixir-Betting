@@ -1,0 +1,47 @@
+<div class="mx-auto max-w-2xl">
+
+<.header>
+  Listing Users
+</.header>
+
+<.table
+  id="users"
+  rows={@streams.users}
+  row_click={fn {_id, user} -> JS.navigate(~p"/users/#{user}") end}
+>
+  <:col :let={{_id, user}} label="Fullname">{user.full_name}</:col>
+  <:col :let={{_id, user}} label="Email">{user.email}</:col>
+  <:col :let={{_id, user}} label="Email">{user.msisdn}</:col>
+  <:col :let={{_id, user}} label="Role">{user.role.name}</:col>
+
+
+
+  <:action :let={{_id, user}}>
+    <div class="sr-only">
+      <.link navigate={~p"/users/#{user}"}>Show</.link>
+    </div>
+    <.link patch={~p"/users/#{user}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={{id, user}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: user.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action in [:new, :edit]} id="user-modal" show on_cancel={JS.patch(~p"/users")}>
+  <.live_component
+    module={BettingWeb.UserLive.FormComponent}
+    id={@user.id || :new}
+    title={@page_title}
+    action={@live_action}
+    user={@user}
+    roles={@roles}
+    patch={~p"/users"}
+  />
+</.modal>
+</div>
+

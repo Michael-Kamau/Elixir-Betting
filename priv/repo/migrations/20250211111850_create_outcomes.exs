@@ -1,5 +1,6 @@
 defmodule Betting.Repo.Migrations.CreateOutcomes do
   use Ecto.Migration
+  import Ecto.SoftDelete.Migration
 
   def change do
     create table(:outcomes) do
@@ -7,6 +8,8 @@ defmodule Betting.Repo.Migrations.CreateOutcomes do
 
 
       timestamps(type: :utc_datetime)
+      soft_delete_columns()
+
     end
   end
 end

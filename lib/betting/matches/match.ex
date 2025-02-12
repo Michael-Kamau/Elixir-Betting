@@ -1,6 +1,8 @@
 defmodule Betting.Matches.Match do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.SoftDelete.Schema
+
 
   schema "matches" do
     field :team_a_score, :integer
@@ -16,6 +18,8 @@ defmodule Betting.Matches.Match do
 
 
     timestamps(type: :utc_datetime)
+    soft_delete_schema()
+
   end
 
   @doc false

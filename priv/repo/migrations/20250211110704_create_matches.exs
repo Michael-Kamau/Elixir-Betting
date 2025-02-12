@@ -1,5 +1,6 @@
 defmodule Betting.Repo.Migrations.CreateMatches do
   use Ecto.Migration
+  import Ecto.SoftDelete.Migration
 
   def change do
     create table(:matches) do
@@ -14,6 +15,8 @@ defmodule Betting.Repo.Migrations.CreateMatches do
       add :category_id, references(:categories, on_delete: :nothing)
 
       timestamps(type: :utc_datetime)
+      soft_delete_columns()
+
     end
 
     create index(:matches, [:team_a_id])

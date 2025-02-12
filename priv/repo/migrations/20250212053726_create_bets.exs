@@ -1,5 +1,6 @@
 defmodule Betting.Repo.Migrations.CreateBets do
   use Ecto.Migration
+  import Ecto.SoftDelete.Migration
 
   def change do
     create table(:bets) do
@@ -11,6 +12,8 @@ defmodule Betting.Repo.Migrations.CreateBets do
       add :outcome_id, references(:outcomes, on_delete: :nothing)
 
       timestamps(type: :utc_datetime)
+      soft_delete_columns()
+
     end
 
     create index(:bets, [:user_id])
