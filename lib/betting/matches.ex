@@ -19,7 +19,7 @@ defmodule Betting.Matches do
   """
   def list_matches do
     Repo.all(Match)
-    |> Repo.preload([:team_a, :team_b, :category, :odd, :odds])
+    |> Repo.preload([:team_a, :team_b, :category, :outcome])
   end
 
   @doc """
@@ -36,7 +36,8 @@ defmodule Betting.Matches do
       ** (Ecto.NoResultsError)
 
   """
-  def get_match!(id), do: Repo.get!(Match, id)
+  def get_match!(id), do: Repo.get!(Match, id) |> Repo.preload([:team_a, :team_b, :category])
+
 
   @doc """
   Creates a match.

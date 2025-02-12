@@ -12,6 +12,7 @@ defmodule BettingWeb.MatchLive.FormComponent do
         <:subtitle>Use this form to manage match records in your database.</:subtitle>
       </.header>
 
+
       <.simple_form
         for={@form}
         id="match-form"
@@ -30,16 +31,25 @@ defmodule BettingWeb.MatchLive.FormComponent do
           <.input field={@form[:team_a_id]} type="select" label="Team A" options={@teams} />
           <.input field={@form[:team_b_id]} type="select" label="Team B" options={@teams} />
         </div>
+
+        <div class="flex justify-between">
+          <.input field={@form[:team_a_odd]}  type="number" step="0.01"  label="Team A odd"  />
+          <.input field={@form[:draw_odd]}  type="number" step="0.01" label="Draw odd"  />
+          <.input field={@form[:team_b_odd]}  type="number" step="0.01" label="Team B odd" />
+        </div>
+
         <div class="grid grid-cols-2 gap-x-3">
           <.input field={@form[:team_a_score]} type="number" label="Team a score" />
           <.input field={@form[:team_b_score]} type="number" label="Team b score" />
         </div>
 
-        <div class="flex justify-between">
-          <.input field={@form[:team_a_odd]} type="number" step="0.01"  label="Team A odd" name="match[odds][team_a_odd]" />
-          <.input field={@form[:draw_odd]} type="number" step="0.01" label="Draw odd" name="match[odds][draw_odd]" />
-          <.input field={@form[:team_b_odd]} type="number" step="0.01" label="Team B odd" name="match[odds][team_b_odd]" />
-        </div>
+
+        <.input
+          field={@form[:outcome_id]}
+          type="select"
+          label="Outcome"
+          options={[{'Select an outcome', nil} | @outcomes]}
+        />
 
         <:actions>
           <.button phx-disable-with="Saving...">Save Match</.button>
@@ -61,7 +71,9 @@ defmodule BettingWeb.MatchLive.FormComponent do
 
   @impl true
   def handle_event("validate", %{"match" => match_params}, socket) do
+
     changeset = Matches.change_match(socket.assigns.match, match_params)
+    dbg(changeset)
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 

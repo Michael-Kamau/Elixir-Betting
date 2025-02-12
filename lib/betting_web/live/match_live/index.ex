@@ -6,12 +6,14 @@ defmodule BettingWeb.MatchLive.Index do
   alias Betting.Matches
   alias Betting.Matches.Match
   alias Betting.Categories
+  alias Betting.Outcomes
 
   @impl true
   def mount(_params, _session, socket) do
     socket =
       socket
       |> assign(:teams, Teams.list_teams() |>Enum.map(&({&1.name, &1.id})))
+      |> assign(:outcomes, Outcomes.list_outcomes() |>Enum.map(&({&1.name, &1.id})))
       |> assign(:categories, Categories.list_categories() |>Enum.map(&({&1.name, &1.id})))
       |> stream(:matches, Matches.list_matches())
 
