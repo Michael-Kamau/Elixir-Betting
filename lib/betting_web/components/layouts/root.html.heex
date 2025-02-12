@@ -8,54 +8,93 @@
       {assigns[:page_title]}
     </.live_title>
     <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
-    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}>
-    </script>
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}></script>
   </head>
-  <body class="bg-white ">
-    <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
-      <%= if @current_user do %>
-        <li class="text-[0.8125rem] leading-6 text-zinc-900">
-          {@current_user.email}
-        </li>
-        <li>
-          <.link
-            href={~p"/users/settings"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Settings
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/log_out"}
-            method="delete"
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Log out
-          </.link>
-        </li>
-      <% else %>
-        <li>
-          <.link
-            href={~p"/users/register"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Register
-          </.link>
-        </li>
-        <li>
-          <.link
-            href={~p"/users/log_in"}
-            class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
-          >
-            Log in
-          </.link>
-        </li>
-      <% end %>
-    </ul>
-    <br>  
-    <hr>
-    <br>
-    {@inner_content}
+  <body class="bg-gray-100 min-h-screen flex">
+    <!-- Sidebar -->
+    <aside class="bg-white w-64 p-6 border-r border-gray-200">
+      <div class="mb-8">
+        <h2 class="text-2xl font-bold text-gray-800">Menu</h2>
+      </div>
+      <nav>
+        <ul class="space-y-4">
+         
+          <li>
+            <.link href={~p"/matches"} class="block p-2 rounded hover:bg-gray-100 text-gray-700">
+              Matches
+            </.link>
+          </li>
+          <li>
+            <.link href={~p"/teams"} class="block p-2 rounded hover:bg-gray-100 text-gray-700">
+              Teams
+            </.link>
+          </li>
+          <li>
+            <.link href={~p"/bets"} class="block p-2 rounded hover:bg-gray-100 text-gray-700">
+              Bets
+            </.link>
+          </li>
+          <li>
+            <.link href={~p"/users"} class="block p-2 rounded hover:bg-gray-100 text-gray-700">
+              Users
+            </.link>
+          </li>
+          <!-- Add more sidebar links as needed -->
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 p-6">
+      <!-- Top Navigation -->
+      <header class="mb-4">
+        <ul class="relative z-10 flex items-center gap-4 justify-end">
+          <%= if @current_user do %>
+            <li class="text-sm text-gray-900">
+              {@current_user.email}
+            </li>
+            <li>
+              <.link
+                href={~p"/users/settings"}
+                class="text-sm text-gray-900 font-semibold hover:text-gray-700"
+              >
+                Settings
+              </.link>
+            </li>
+            <li>
+              <.link
+                href={~p"/users/log_out"}
+                method="delete"
+                class="text-sm text-gray-900 font-semibold hover:text-gray-700"
+              >
+                Log out
+              </.link>
+            </li>
+          <% else %>
+            <li>
+              <.link
+                href={~p"/users/register"}
+                class="text-sm text-gray-900 font-semibold hover:text-gray-700"
+              >
+                Register
+              </.link>
+            </li>
+            <li>
+              <.link
+                href={~p"/users/log_in"}
+                class="text-sm text-gray-900 font-semibold hover:text-gray-700"
+              >
+                Log in
+              </.link>
+            </li>
+          <% end %>
+        </ul>
+      </header>
+
+      <!-- Page Content -->
+      <main>
+        {@inner_content}
+      </main>
+    </div>
   </body>
 </html>
