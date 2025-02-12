@@ -9,7 +9,7 @@ defmodule BettingWeb.BetLive.FormComponent do
     <div>
       <.header>
         {@title}
-        <:subtitle>Use this form to manage bet records in your database.</:subtitle>
+        <:subtitle>{@match.team_a.name} VS {@match.team_b.name}</:subtitle>
       </.header>
 
       <.simple_form
@@ -19,12 +19,21 @@ defmodule BettingWeb.BetLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
-        <.input field={@form[:match_id]} hidden type="number" label="Bet amount" value={@match.id} />
-        <.input field={@form[:user_id]} hidden type="number" label="current_user" value={@current_user.id} />
+        <.input field={@form[:match_id]}  type="hidden" label="" value={@match.id} />
+        <.input field={@form[:user_id]}  type="hidden" label="" value={@current_user.id} />
 
         <.input field={@form[:bet_amount]} type="number" label="Bet amount" step="any" />
-        <.input field={@form[:cancelled]} type="checkbox" label="Cancelled" />
-        <.input field={@form[:settled_amount]} type="number" label="Settled amount" step="any" />
+
+        <.input
+          field={@form[:outcome_id]}
+          type="select"
+          label="Outcome"
+          options={[{"Select an outcome", nil} | @outcomes]}
+        />
+
+        <.input :if={:new != @id} field={@form[:cancelled]} type="checkbox" label="Cancel" />
+
+        <%!-- <.input field={@form[:settled_amount]} type="number" label="Settled amount" step="any" /> --%>
         <:actions>
           <.button phx-disable-with="Saving...">Save Bet</.button>
         </:actions>
@@ -46,6 +55,7 @@ defmodule BettingWeb.BetLive.FormComponent do
   @impl true
   def handle_event("validate", %{"bet" => bet_params}, socket) do
     changeset = Bets.change_bet(socket.assigns.bet, bet_params)
+    dbg(changeset)
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 

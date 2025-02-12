@@ -4,9 +4,10 @@ defmodule BettingWeb.BetLive.Index do
   alias Betting.Bets
   alias Betting.Bets.Bet
   alias Betting.Matches
+  alias Betting.Outcomes
 
   @impl true
-  def mount(_params, session, socket) do
+  def mount(_params, _session, socket) do
     {:ok, stream(socket, :bets, Bets.list_bets())}
   end
 
@@ -17,21 +18,26 @@ defmodule BettingWeb.BetLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id, "match_id" => match_id}) do
     match = Matches.get_match!(match_id)
+    outcomes = Outcomes.list_outcomes() |>Enum.map(&({&1.name, &1.id}))
 
     socket
     |> assign(:page_title, "Edit Bet")
     |> assign(:match, match)
     |> assign(:bet, Bets.get_bet!(id))
+    |> assign(:outcomes, outcomes)
   end
 
   defp apply_action(socket, :new,%{"match_id" => match_id}) do
 
     match = Matches.get_match!(match_id)
 
+    outcomes = Outcomes.list_outcomes() |>Enum.map(&({&1.name, &1.id}))
+
     socket
     |> assign(:page_title, "New Bet")
     |> assign(:bet, %Bet{})
     |> assign(:match, match)
+    |> assign(:outcomes, outcomes)
   end
 
   defp apply_action(socket, :index, _params) do

@@ -16,6 +16,7 @@ defmodule BettingWeb.HomepageLive do
           <thead class="bg-gray-700">
             <tr>
               <th class="px-6 py-3">Match</th>
+              <th class="px-6 py-3">Scores</th>
               <th class="px-6 py-3">Team A Odds</th>
               <th class="px-6 py-3">Draw Odds</th>
               <th class="px-6 py-3">Team B Odds</th>
@@ -23,53 +24,24 @@ defmodule BettingWeb.HomepageLive do
             </tr>
           </thead>
           <tbody>
-            <!-- Match Row 1 -->
-            <tr class="border-t border-gray-600">
-              <td class="px-6 py-4">Team A vs Team B</td>
-              <td class="px-6 py-4">1.75</td>
-              <td class="px-6 py-4">3.10</td>
-              <td class="px-6 py-4">2.20</td>
-              <td class="px-6 py-4">
-                <button
-                  phx-click={show_modal("user-modal")}
-                  class="bg-yellow-500 text-gray-900 px-4 py-2 rounded-lg hover:bg-yellow-600 transition"
-                >
-                  Place Bet
-                </button>
-              </td>
-            </tr>
-
-    <!-- Match Row 2 -->
-            <tr class="border-t border-gray-600">
-              <td class="px-6 py-4">Team C vs Team D</td>
-              <td class="px-6 py-4">2.00</td>
-              <td class="px-6 py-4">3.40</td>
-              <td class="px-6 py-4">1.90</td>
-              <td class="px-6 py-4">
-                <button
-                  phx-click={show_modal("user-modal")}
-                  class="bg-yellow-500 text-gray-900 px-4 py-2 rounded-lg hover:bg-yellow-600 transition"
-                >
-                  Place Bet
-                </button>
-              </td>
-            </tr>
-
-    <!-- Match Row 3 -->
-            <tr class="border-t border-gray-600">
-              <td class="px-6 py-4">Team E vs Team F</td>
-              <td class="px-6 py-4">1.85</td>
-              <td class="px-6 py-4">3.20</td>
-              <td class="px-6 py-4">2.10</td>
-              <td class="px-6 py-4">
-                <button
-                  phx-click={show_modal("user-modal")}
-                  class="bg-yellow-500 text-gray-900 px-4 py-2 rounded-lg hover:bg-yellow-600 transition"
-                >
-                  Place Bet
-                </button>
-              </td>
-            </tr>
+            <%= for match <- @matches do %>
+              <tr class="border-t border-gray-600">
+                <td class="px-6 py-4">{match.team_a.name} vs {match.team_b.name}</td>
+                <td class="px-6 py-4">({match.team_a_score} - {match.team_b_score})</td>
+                <td class="px-6 py-4">{match.team_a_odd}</td>
+                <td class="px-6 py-4">{match.team_b_odd}</td>
+                <td class="px-6 py-4">{match.draw_odd}</td>
+                <td class="px-6 py-4">
+                  <.link patch={~p"/bets/new/#{match.id}"}>
+                    <button
+                      class="bg-yellow-500 text-gray-900 px-4 py-2 rounded-lg hover:bg-yellow-600 transition"
+                    >
+                      Place Bet
+                    </button>
+                  </.link>
+                </td>
+              </tr>
+            <% end %>
           </tbody>
         </table>
       </section>
@@ -84,8 +56,8 @@ defmodule BettingWeb.HomepageLive do
 
   def mount(_params, _session, socket) do
     # Let's assume a fixed temperature for now
-    temperature = 70
-    {:ok, assign(socket, :temperature, temperature)}
+    matches = Betting.Matches.list_matches()
+    {:ok, assign(socket, :matches, matches)}
   end
 
   @spec handle_event(<<_::120>>, any(), map()) :: {:noreply, map()}
