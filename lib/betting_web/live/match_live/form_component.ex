@@ -48,9 +48,8 @@ defmodule BettingWeb.MatchLive.FormComponent do
           field={@form[:outcome_id]}
           type="select"
           label="Outcome"
-          options={[{'Select an outcome', nil} | @outcomes]}
+          options={[{"Select an outcome", nil} | @outcomes]}
         />
-
         <:actions>
           <.button phx-disable-with="Saving...">Save Match</.button>
         </:actions>

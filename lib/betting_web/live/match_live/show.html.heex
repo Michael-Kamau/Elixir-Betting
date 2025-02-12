@@ -1,3 +1,5 @@
+<div class="mx-auto max-w-2xl">
+
 <.header>
   Match {@match.id}
   <:subtitle>This is a match record from your database.</:subtitle>
@@ -14,7 +16,7 @@
 </.list>
 
 <.back navigate={~p"/matches"}>Back to matches</.back>
-
+</div>
 <.modal :if={@live_action == :edit} id="match-modal" show on_cancel={JS.patch(~p"/matches/#{@match}")}>
   <.live_component
     module={BettingWeb.MatchLive.FormComponent}

@@ -89,6 +89,14 @@ defmodule BettingWeb.Router do
       live "/teams/:id", TeamLive.Show, :show
       live "/teams/:id/show/edit", TeamLive.Show, :edit
 
+      #BETS LIVE VIEWS
+      live "/bets", BetLive.Index, :index
+      live "/bets/new", BetLive.Index, :new
+      live "/bets/:id/edit", BetLive.Index, :edit
+
+      live "/bets/:id", BetLive.Show, :show
+      live "/bets/:id/show/edit", BetLive.Show, :edit
+
     end
   end
 
