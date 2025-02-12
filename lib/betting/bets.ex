@@ -101,4 +101,15 @@ defmodule Betting.Bets do
   def change_bet(%Bet{} = bet, attrs \\ %{}) do
     Bet.changeset(bet, attrs)
   end
+
+  def get_bets_by_match_id(match_id) do
+    import Ecto.Query, only: [from: 2]
+
+    query =
+      from b in Bet,
+        where: b.match_id == ^match_id,
+        preload: [:user, :match]
+
+    Repo.all(query)
+  end
 end

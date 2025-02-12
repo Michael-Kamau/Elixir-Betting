@@ -55,7 +55,6 @@ defmodule BettingWeb.BetLive.FormComponent do
   @impl true
   def handle_event("validate", %{"bet" => bet_params}, socket) do
     changeset = Bets.change_bet(socket.assigns.bet, bet_params)
-    dbg(changeset)
     {:noreply, assign(socket, form: to_form(changeset, action: :validate))}
   end
 

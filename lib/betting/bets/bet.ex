@@ -18,7 +18,7 @@ defmodule Betting.Bets.Bet do
   @doc false
   def changeset(bet, attrs) do
     bet
-    |> cast(attrs, [:bet_amount, :cancelled, :user_id, :match_id])
-    |> validate_required([:bet_amount, :cancelled, :user_id, :match_id])
+    |> cast(attrs, [:bet_amount, :cancelled, :user_id, :match_id, :settled_amount, :outcome_id])
+    |> validate_required([:bet_amount, :cancelled, :user_id, :match_id, :outcome_id])
   end
 end
