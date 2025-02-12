@@ -12,6 +12,7 @@ defmodule Betting.Matches.Match do
     belongs_to :team_a, Betting.Teams.Team
     belongs_to :team_b, Betting.Teams.Team
     belongs_to :outcome, Betting.Outcomes.Outcome
+    has_many :bets, Betting.Bets.Bet
 
 
     timestamps(type: :utc_datetime)

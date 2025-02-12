@@ -8,6 +8,7 @@ defmodule Betting.Accounts.User do
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
+    has_many :bets, Betting.Bets.Bet
 
     timestamps(type: :utc_datetime)
   end
