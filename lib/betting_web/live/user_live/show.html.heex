@@ -1,8 +1,8 @@
 <div class="mx-auto max-w-3xl">
 
 <.header>
-  User {@user.id}
-  <:subtitle>This is a user record from your database.</:subtitle>
+   {@user.full_name}
+  <:subtitle>{@user.email}</:subtitle>
   <!--
   <:actions>
     <.link patch={~p"/users/#{@user}/show/edit"} phx-click={JS.push_focus()}>

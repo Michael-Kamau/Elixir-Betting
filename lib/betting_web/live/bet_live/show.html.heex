@@ -3,11 +3,6 @@
 <.header>
   Bet {@bet.id}
   <:subtitle>This is a bet record from your database.</:subtitle>
-  <:actions>
-    <.link patch={~p"/bets/#{@bet}/show/edit"} phx-click={JS.push_focus()}>
-      <.button>Edit bet</.button>
-    </.link>
-  </:actions>
 </.header>
 
 <.list>
