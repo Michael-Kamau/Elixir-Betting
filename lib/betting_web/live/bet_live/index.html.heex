@@ -2,7 +2,7 @@
   <.header>
   Listing Bets
   <:actions>
-    <.link patch={~p"/bets/new"}>
+    <.link patch={~p"/"}>
       <.button>New Bet</.button>
     </.link>
   </:actions>
@@ -20,7 +20,7 @@
     <div class="sr-only">
       <.link navigate={~p"/bets/#{bet}"}>Show</.link>
     </div>
-    <.link patch={~p"/bets/#{bet}/edit"}>Edit</.link>
+    <.link patch={~p"/bets/#{bet}/edit/#{bet.match_id}"}>Edit</.link>
   </:action>
   <:action :let={{id, bet}}>
     <.link
@@ -39,6 +39,8 @@
     title={@page_title}
     action={@live_action}
     bet={@bet}
+    match={@match}
+    current_user={@current_user}
     patch={~p"/bets"}
   />
 </.modal>

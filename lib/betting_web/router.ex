@@ -89,13 +89,13 @@ defmodule BettingWeb.Router do
       live "/teams/:id", TeamLive.Show, :show
       live "/teams/:id/show/edit", TeamLive.Show, :edit
 
-      #BETS LIVE VIEWS
-      live "/bets", BetLive.Index, :index
-      live "/bets/new", BetLive.Index, :new
-      live "/bets/:id/edit", BetLive.Index, :edit
+       #BETS LIVE VIEWS
+       live "/bets", BetLive.Index, :index
+       live "/bets/new/:match_id", BetLive.Index, :new
+       live "/bets/:id/edit/:match_id", BetLive.Index, :edit
 
-      live "/bets/:id", BetLive.Show, :show
-      live "/bets/:id/show/edit", BetLive.Show, :edit
+       live "/bets/:id", BetLive.Show, :show
+       live "/bets/:id/show/edit", BetLive.Show, :edit
 
     end
   end
@@ -109,6 +109,8 @@ defmodule BettingWeb.Router do
       on_mount: [{BettingWeb.UserAuth, :mount_current_user}] do
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
+
+
     end
   end
 end

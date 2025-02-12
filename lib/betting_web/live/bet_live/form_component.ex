@@ -19,6 +19,9 @@ defmodule BettingWeb.BetLive.FormComponent do
         phx-change="validate"
         phx-submit="save"
       >
+        <.input field={@form[:match_id]} hidden type="number" label="Bet amount" value={@match.id} />
+        <.input field={@form[:user_id]} hidden type="number" label="current_user" value={@current_user.id} />
+
         <.input field={@form[:bet_amount]} type="number" label="Bet amount" step="any" />
         <.input field={@form[:cancelled]} type="checkbox" label="Cancelled" />
         <.input field={@form[:settled_amount]} type="number" label="Settled amount" step="any" />

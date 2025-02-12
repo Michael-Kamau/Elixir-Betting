@@ -6,9 +6,11 @@ defmodule Betting.Bets.Bet do
     field :cancelled, :boolean, default: false
     field :bet_amount, :decimal
     field :settled_amount, :decimal
-    field :user_id, :id
-    field :match_id, :id
+    # field :user_id, :id
+    # field :match_id, :id
     field :outcome_id, :id
+    belongs_to :user, Betting.Accounts.User
+    belongs_to :match, Betting.Matches.Match
 
     timestamps(type: :utc_datetime)
   end
@@ -16,7 +18,7 @@ defmodule Betting.Bets.Bet do
   @doc false
   def changeset(bet, attrs) do
     bet
-    |> cast(attrs, [:bet_amount, :cancelled, :settled_amount])
-    |> validate_required([:bet_amount, :cancelled, :settled_amount])
+    |> cast(attrs, [:bet_amount, :cancelled, :settled_amount, :user_id, :match_id])
+    |> validate_required([:bet_amount, :cancelled, :settled_amount, :user_id, :match_id])
   end
 end
