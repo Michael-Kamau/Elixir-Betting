@@ -8,9 +8,10 @@ defmodule Betting.Bets.Bet do
     field :settled_amount, :decimal
     # field :user_id, :id
     # field :match_id, :id
-    field :outcome_id, :id
+    # field :outcome_id, :id
     belongs_to :user, Betting.Accounts.User
     belongs_to :match, Betting.Matches.Match
+    belongs_to :outcome, Betting.Outcomes.Outcome
 
     timestamps(type: :utc_datetime)
   end

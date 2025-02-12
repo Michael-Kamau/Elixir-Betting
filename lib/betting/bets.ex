@@ -108,7 +108,19 @@ defmodule Betting.Bets do
     query =
       from b in Bet,
         where: b.match_id == ^match_id,
-        preload: [:user, :match]
+        preload: [:user, :match, :outcome]
+
+    Repo.all(query)
+  end
+
+
+  def get_bets_by_user_id(user_id) do
+    import Ecto.Query, only: [from: 2]
+
+    query =
+      from b in Bet,
+        where: b.user_id == ^user_id,
+        preload: [:user, :outcome, match: [:team_a, :team_b] ]
 
     Repo.all(query)
   end

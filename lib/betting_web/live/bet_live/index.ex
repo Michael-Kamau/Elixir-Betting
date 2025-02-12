@@ -5,10 +5,12 @@ defmodule BettingWeb.BetLive.Index do
   alias Betting.Bets.Bet
   alias Betting.Matches
   alias Betting.Outcomes
+  alias Betting.Accounts
 
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, stream(socket, :bets, Bets.list_bets())}
+  def mount(_params, session, socket) do
+    user = Accounts.get_user_by_session_token(session["user_token"])
+    {:ok, stream(socket, :bets, Bets.get_bets_by_user_id(user.id))}
   end
 
   @impl true
