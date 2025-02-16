@@ -55,6 +55,7 @@ defmodule Betting.Matches do
     %Match{}
     |> Match.changeset(attrs)
     |> Repo.insert()
+    |> broadcast(:match_created)
   end
 
   @doc """
@@ -73,6 +74,8 @@ defmodule Betting.Matches do
     match
     |> Match.changeset(attrs)
     |> Repo.update()
+    |> broadcast(:match_updated)
+
   end
 
   @doc """
@@ -103,4 +106,17 @@ defmodule Betting.Matches do
   def change_match(%Match{} = match, attrs \\ %{}) do
     Match.changeset(match, attrs)
   end
+
+
+  def subscribe do
+    Phoenix.PubSub.subscribe(Betting.PubSub, "matches")
+  end
+
+  defp broadcast({:error, _event} = error, _event), do: error
+
+  defp broadcast({:ok, match}, event) do
+    Phoenix.PubSub.broadcast(Betting.PubSub,"matches", {event, match})
+    {:ok, match}
+  end
+
 end

@@ -17,6 +17,7 @@ defmodule BettingWeb.UserSettingsLive do
           id="email_form"
           phx-submit="update_email"
           phx-change="validate_email"
+          class="p-2"
         >
           <.input field={@email_form[:email]} type="email" label="Email" required />
           <.input

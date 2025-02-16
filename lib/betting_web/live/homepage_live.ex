@@ -3,17 +3,17 @@ defmodule BettingWeb.HomepageLive do
 
   def render(assigns) do
     ~H"""
-    <div class="w-full h-full bg-gray-800 px-2">
-      <section class=" text-white">
+    <div class="w-full h-full bg-whitepx-2">
+      <section class=" text-gray-800">
         <div class="container mx-auto py-12">
           <h1 class="text-4xl font-bold text-center">Welcome to BetMaster</h1>
           <p class="text-xl text-center mt-4">The ultimate online betting platform</p>
         </div>
       </section>
 
-      <section class="overflow-x-auto bg-gray-800 rounded-lg shadow-lg">
-        <table class="min-w-full table-auto text-left text-sm text-gray-300">
-          <thead class="bg-gray-700">
+      <section class="overflow-x-auto bg-white rounded-lg shadow-lg">
+        <table id="matches" class="min-w-full table-auto text-left text-sm text-gray-800" >
+          <thead class="bg-white">
             <tr>
               <th class="px-6 py-3">Match</th>
               <th class="px-6 py-3">Scores</th>
@@ -55,13 +55,24 @@ defmodule BettingWeb.HomepageLive do
   end
 
   def mount(_params, _session, socket) do
-    # Let's assume a fixed temperature for now
+    if connected?(socket), do: Betting.Matches.subscribe()
     matches = Betting.Matches.list_matches()
+
     {:ok, assign(socket, :matches, matches)}
   end
 
-  @spec handle_event(<<_::120>>, any(), map()) :: {:noreply, map()}
-  def handle_event("inc_temperature", _params, socket) do
-    {:noreply, update(socket, :temperature, &(&1 + 1))}
+  @impl true
+  def handle_info({:match_created, match}, socket) do
+    {:noreply, update(socket, :matches, &[match | &1])}
+  end
+
+  @impl true
+  def handle_info({:match_updated, match}, socket) do
+    updated_matches =
+      Enum.map(socket.assigns.matches, fn existing_match ->
+        if existing_match.id == match.id, do: match, else: existing_match
+      end)
+
+    {:noreply, assign(socket, :matches, updated_matches)}
   end
 end
