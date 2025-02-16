@@ -22,6 +22,12 @@ defmodule Betting.Matches do
     |> Repo.preload([:team_a, :team_b, :category, :outcome])
   end
 
+  def list_active_matches do
+    from(m in Match, where: is_nil(m.outcome_id))
+    |> Repo.all()
+    |> Repo.preload([:team_a, :team_b, :category, :outcome])
+  end
+
   @doc """
   Gets a single match.
 
@@ -91,7 +97,7 @@ defmodule Betting.Matches do
 
   """
   def delete_match(%Match{} = match) do
-    Repo.delete(match)
+    Repo.soft_delete(match)
   end
 
   @doc """

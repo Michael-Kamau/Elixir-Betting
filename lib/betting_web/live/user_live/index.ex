@@ -43,9 +43,21 @@ defmodule BettingWeb.UserLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    user = Accounts.get_user!(id)
-    {:ok, _} = Accounts.delete_user(user)
 
-    {:noreply, stream_delete(socket, :users, user)}
-  end
+    user = Accounts.get_user!(id)
+
+    # Fetch all bets belonging to the user
+    user_bets = Betting.Bets.get_bets_by_user_id(user.id)
+
+    # Soft delete each bet individually
+    Enum.each(user_bets, fn bet ->
+      Betting.Bets.delete_bet(bet)
+    end)
+
+    # Soft delete the user after all bets are deleted
+    case Accounts.delete_user(user) do
+      {:ok, _} -> {:noreply, stream_delete(socket, :users, user)}
+      {:error, _} -> {:noreply, put_flash(socket, :error, "Failed to delete user and bets.")}
+    end
+    end
 end

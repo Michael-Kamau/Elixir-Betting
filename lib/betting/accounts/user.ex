@@ -54,6 +54,8 @@ defmodule Betting.Accounts.User do
     |> cast(attrs, [:email, :password, :msisdn, :full_name, :role_id])
     |> validate_email(opts)
     |> validate_password(opts)
+    |> unique_constraint(:msisdn, message: "MSISDN already exists")
+
   end
 
   defp validate_email(changeset, opts) do

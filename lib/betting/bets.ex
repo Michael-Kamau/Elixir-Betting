@@ -86,7 +86,7 @@ defmodule Betting.Bets do
 
   """
   def delete_bet(%Bet{} = bet) do
-    Repo.delete(bet)
+    Repo.soft_delete(bet)
   end
 
   @doc """

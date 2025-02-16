@@ -365,4 +365,8 @@ defmodule Betting.Accounts do
       {:error, :user, changeset, _} -> {:error, changeset}
     end
   end
+
+  def delete_user(%User{} = user) do
+    Repo.soft_delete(user)
+  end
 end

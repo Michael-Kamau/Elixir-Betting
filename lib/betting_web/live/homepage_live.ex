@@ -56,7 +56,7 @@ defmodule BettingWeb.HomepageLive do
 
   def mount(_params, _session, socket) do
     if connected?(socket), do: Betting.Matches.subscribe()
-    matches = Betting.Matches.list_matches()
+    matches = Betting.Matches.list_active_matches()
 
     {:ok, assign(socket, :matches, matches)}
   end

@@ -25,7 +25,7 @@ defmodule Betting.Matches.Match do
   @doc false
   def changeset(match, attrs) do
     match
-    |> cast(attrs, [:team_a_score, :team_b_score, :team_a_id, :team_b_id, :category_id, :team_a_odd, :team_b_odd, :draw_odd])
+    |> cast(attrs, [:team_a_score, :team_b_score, :team_a_id, :team_b_id, :category_id, :team_a_odd, :team_b_odd, :draw_odd, :outcome_id])
     |> validate_required([:team_a_score, :team_b_score, :team_a_id, :team_b_id, :category_id, :team_a_odd, :team_b_odd, :draw_odd])
     |> validate_team_ids_unique()
   end
