@@ -1,4 +1,5 @@
 defmodule BettingWeb.Router do
+
   use BettingWeb, :router
 
   import BettingWeb.UserAuth
@@ -20,7 +21,9 @@ defmodule BettingWeb.Router do
   scope "/", BettingWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    # get "/", PageController, :home
+    live "/", HomepageLive
+
   end
 
   # Other scopes may use custom stacks.
@@ -68,6 +71,69 @@ defmodule BettingWeb.Router do
       on_mount: [{BettingWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+
+       #BETS LIVE VIEWS
+       live "/bets", BetLive.Index, :index
+       live "/bets/new/:match_id", BetLive.Index, :new
+       live "/bets/:id/edit/:match_id", BetLive.Index, :edit
+
+       live "/bets/:id", BetLive.Show, :show
+      #  live "/bets/:id/show/edit", BetLive.Show, :edit
+
+
+
+    end
+  end
+
+   # ADMIN SPECIFIC ROUTES.
+   scope "/", BettingWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live_session :require_admin,
+    on_mount: [
+      {BettingWeb.UserAuth, :ensure_authenticated},
+      {BettingWeb.UserAuth, :ensure_admin}
+    ] do
+
+      #USERS PAGES.
+      live "/users", UserLive.Index, :index
+      live "/users/:id", UserLive.Show, :show
+
+    end
+  end
+
+
+  #SUPERUSER ADMIN SPECIFIC ROUTES.
+  scope "/", BettingWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live_session :ensure_super_user,
+    on_mount: [
+      {BettingWeb.UserAuth, :ensure_authenticated},
+      {BettingWeb.UserAuth, :ensure_super_user}
+    ] do
+      # USERS PAGES.
+      live "/users/:id/edit", UserLive.Index, :edit
+      live "/users/:id/show/edit", UserLive.Show, :edit
+
+      #TEAMS LIVE VIEWS
+      live "/teams", TeamLive.Index, :index
+      live "/teams/new", TeamLive.Index, :new
+      live "/teams/:id/edit", TeamLive.Index, :edit
+
+      live "/teams/:id", TeamLive.Show, :show
+      live "/teams/:id/show/edit", TeamLive.Show, :edit
+
+
+      #MATCHES LIVE VIEWS
+      live "/matches", MatchLive.Index, :index
+      live "/matches/new", MatchLive.Index, :new
+      live "/matches/:id/edit", MatchLive.Index, :edit
+
+      live "/matches/:id", MatchLive.Show, :show
+      live "/matches/:id/show/edit", MatchLive.Show, :edit
+
+
     end
   end
 
@@ -80,6 +146,8 @@ defmodule BettingWeb.Router do
       on_mount: [{BettingWeb.UserAuth, :mount_current_user}] do
       live "/users/confirm/:token", UserConfirmationLive, :edit
       live "/users/confirm", UserConfirmationInstructionsLive, :new
+
+
     end
   end
 end

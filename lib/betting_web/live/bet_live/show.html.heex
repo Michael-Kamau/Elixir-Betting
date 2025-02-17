@@ -1,0 +1,25 @@
+<div class="mx-auto max-w-3xl">
+
+<.header>
+  Bet {@bet.id}
+  <:subtitle>This is a bet record from your database.</:subtitle>
+</.header>
+
+<.list>
+  <:item title="Bet amount">{@bet.bet_amount}</:item>
+  <:item title="Cancelled">{@bet.cancelled}</:item>
+  <:item title="Settled amount">{@bet.settled_amount}</:item>
+</.list>
+
+<.back navigate={~p"/bets"}>Back to bets</.back>
+</div>
+<.modal :if={@live_action == :edit} id="bet-modal" show on_cancel={JS.patch(~p"/bets/#{@bet}")}>
+  <.live_component
+    module={BettingWeb.BetLive.FormComponent}
+    id={@bet.id}
+    title={@page_title}
+    action={@live_action}
+    bet={@bet}
+    patch={~p"/bets/#{@bet}"}
+  />
+</.modal>

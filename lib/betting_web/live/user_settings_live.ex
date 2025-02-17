@@ -10,13 +10,14 @@ defmodule BettingWeb.UserSettingsLive do
       <:subtitle>Manage your account email address and password settings</:subtitle>
     </.header>
 
-    <div class="space-y-12 divide-y">
+    <div class="space-y-12 divide-y mx-auto max-w-2xl">
       <div>
         <.simple_form
           for={@email_form}
           id="email_form"
           phx-submit="update_email"
           phx-change="validate_email"
+          class="p-2"
         >
           <.input field={@email_form[:email]} type="email" label="Email" required />
           <.input

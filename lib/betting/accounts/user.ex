@@ -1,15 +1,23 @@
 defmodule Betting.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.SoftDelete.Schema
 
   schema "users" do
+    field :full_name, :string
+    field :msisdn, :string
+    field :super_user, :boolean
     field :email, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
+    has_many :bets, Betting.Bets.Bet
+    belongs_to :role, Betting.Roles.Role
 
     timestamps(type: :utc_datetime)
+    soft_delete_schema()
+
   end
 
   @doc """
@@ -35,11 +43,19 @@ defmodule Betting.Accounts.User do
       submitting the form), this option can be set to `false`.
       Defaults to `true`.
   """
+  def changeset(user, attrs) do
+    user
+    |> cast(attrs, [:role_id, :super_user])
+  end
+
+
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :password])
+    |> cast(attrs, [:email, :password, :msisdn, :full_name, :role_id])
     |> validate_email(opts)
     |> validate_password(opts)
+    |> unique_constraint(:msisdn, message: "MSISDN already exists")
+
   end
 
   defp validate_email(changeset, opts) do

@@ -174,6 +174,34 @@ defmodule BettingWeb.UserAuth do
     end
   end
 
+   # Ensure the user is an admin (or a super user).
+  def on_mount(:ensure_admin, _params, _session, socket) do
+    case socket.assigns[:current_user] do
+      %{role: %{name: "Admin"}} = _user ->
+        {:cont, socket}
+      _ ->
+        socket =
+          socket
+          |>  Phoenix.LiveView.put_flash(:error, "You are not authorized to access that page.")
+          |>  Phoenix.LiveView.redirect(to: "/")
+        {:halt, socket}
+    end
+  end
+
+  # Ensure the user is an admin (or a super user).
+  def on_mount(:ensure_super_user, _params, _session, socket) do
+    case socket.assigns[:current_user] do
+      %{role: %{name: "Admin"}, super_user: true} ->
+        {:cont, socket}
+      _ ->
+        socket =
+          socket
+          |>  Phoenix.LiveView.put_flash(:error, "You are not authorized to access that page.")
+          |>  Phoenix.LiveView.redirect(to: "/")
+        {:halt, socket}
+    end
+  end
+
   defp mount_current_user(socket, session) do
     Phoenix.Component.assign_new(socket, :current_user, fn ->
       if user_token = session["user_token"] do

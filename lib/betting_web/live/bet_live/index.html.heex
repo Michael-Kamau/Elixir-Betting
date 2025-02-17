@@ -1,0 +1,66 @@
+<div class="mx-auto max-w-3xl">
+  <.header>
+  Listing Bets
+</.header>
+
+<.table
+  id="bets"
+  rows={@streams.bets}
+  row_click={fn {_id, bet} -> JS.navigate(~p"/bets/#{bet}") end}
+>
+  <:col :let={{_id, bet}} label="Teams">{bet.match.team_a.name} VS {bet.match.team_b.name}</:col>
+
+  <:col :let={{_id, bet}} label="Amount">{bet.bet_amount}</:col>
+
+
+  <:col :let={{_id, bet}} label="My prediction">{bet.outcome.name}</:col>
+
+  <:col :let={{_id, bet}} label="Status">
+    <%= cond do %>
+      <%= bet.cancelled -> %>
+      cancelled
+      <%= is_nil(bet.settled_amount) -> %>
+      Running
+      <%= Decimal.compare(bet.settled_amount, Decimal.new(0)) == :gt -> %>
+        won
+      <%= Decimal.compare(bet.settled_amount, Decimal.new(0)) == :lt -> %>
+        lost
+      <%= true -> %>
+        active
+    <% end %>
+  </:col>
+
+  <:col :let={{_id, bet}} label="Settled amount">{bet.settled_amount}</:col>
+
+  <:action :let={{_id, bet}} >
+    <div class="sr-only" >
+      <.link navigate={~p"/bets/#{bet}"}>Show</.link>
+    </div>
+  
+    <.link  patch={~p"/bets/#{bet}/edit/#{bet.match_id}"}>Edit</.link>
+  </:action>
+  <!--
+  <:action :let={{id, bet}}>
+    <.link
+      phx-click={JS.push("delete", value: %{id: bet.id}) |> hide("##{id}")}
+      data-confirm="Are you sure?"
+    >
+      Delete
+    </.link>
+  </:action>
+  -->
+</.table>
+</div>
+<.modal :if={@live_action in [:new, :edit]} id="bet-modal" show on_cancel={JS.patch(~p"/bets")}>
+  <.live_component
+    module={BettingWeb.BetLive.FormComponent}
+    id={@bet.id || :new}
+    title={@page_title}
+    action={@live_action}
+    bet={@bet}
+    outcomes={@outcomes}
+    match={@match}
+    current_user={@current_user}
+    patch={~p"/bets"}
+  />
+</.modal>
